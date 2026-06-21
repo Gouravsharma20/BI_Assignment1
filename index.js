@@ -98,7 +98,7 @@ app.get("/events/:id",async(req,res)=>{
     try {
         const foundEvent = await eventList.findById(req.params.id)
         if (!foundEvent) {
-            return res.status(404).json({error:"an error occured while finding event by title"})
+            return res.status(404).json({error:"an error is occuring while finding event by title"})
         } else {
             return res.status(200).json({message:"event found successfully",foundEventDetails:foundEvent})
         }
