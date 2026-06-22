@@ -145,10 +145,31 @@ app.get("/events/eventType/:eventType",async (req,res)=>{
     }
 })
 
-// get event by type
+// delete
+
+// async function deleteEvent(eventToDelete) {
+//     try {
+//         const deleteEvent = await eventList.deleteOne(eventToDelete)
+//         return deleteEvent
+//     } catch(err) {
+//         console.log("an error occured while deleting event")
+//     }
+// }
+
+app.delete("/events/deleteEvent/:eventId",async(req,res)=>{
+    try {
+        const deleteevent = await eventList.findByIdAndDelete(req.params.eventId)
+        if (!deleteevent) {
+            return res.status(404).json({error:"delete event id not found"})
+        }
+        return res.status(200).json({message:"event deleted successfully",deletedEvent:deleteevent})
+    } catch(err) {
+        return res.status(500).json({error:"an error occured while deleting events"})
+    }
+})
 
 
-const PORT = 2216
+const PORT = 2219
 
 app.listen(PORT,()=>{
     console.log(`App is running on port ${PORT}`)
