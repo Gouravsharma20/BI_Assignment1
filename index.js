@@ -17,7 +17,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-initializeDatabase()
+
 
 
 app.get("/",(req,res)=>{
@@ -27,6 +27,7 @@ app.get("/",(req,res)=>{
 // getiing all events
 
 const allEvents = async() => {
+    initializeDatabase()
     try {
         const listOfEvents = await eventList.find()
         return listOfEvents
@@ -53,6 +54,7 @@ app.get("/events",async(req,res)=>{
 // add event
 
 const addEvents = async(newEvent) => {
+    initializeDatabase()
     try {
         const eventToAdd = new eventList(newEvent)
         const saveEvent = await eventToAdd.save()
@@ -64,6 +66,7 @@ const addEvents = async(newEvent) => {
 }
 
 app.post("/addEvent",async(req,res)=>{
+    initializeDatabase()
     try{
         const newEvent = req.body
         const newlyAddedEvent = await addEvents(newEvent)
@@ -84,6 +87,7 @@ app.post("/addEvent",async(req,res)=>{
 // get events
 
 const findEvents = async(findEventBy) => {
+    initializeDatabase()
     try {
         const foundEvent = await eventList.find(findEventBy)
         if(!foundEvent) {
