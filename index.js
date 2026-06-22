@@ -32,7 +32,8 @@ const allEvents = async() => {
         return listOfEvents
 
     } catch(err) {
-        console.log("an error occured while getting all events")
+        console.log("an error occured while getting all events",err)
+        throw err
     }
 } 
 
@@ -57,7 +58,8 @@ const addEvents = async(newEvent) => {
         const saveEvent = await eventToAdd.save()
         return saveEvent
     } catch(err) {
-        console.log("an error occured while adding events")
+        console.log("an error occured while adding events",err)
+        throw err
     }
 }
 
@@ -88,7 +90,9 @@ const findEvents = async(findEventBy) => {
             console.log("an error occured while finding event")
         } else return foundEvent
     } catch(err) {
-        console.log("an error occured while finding event by :",event)
+        console.log("an error occured while finding event by :",event,err)
+        throw err
+
     }
 }
 
