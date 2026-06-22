@@ -105,7 +105,7 @@ const findEvents = async(findEventBy) => {
 app.get("/events/:id",async(req,res)=>{
     try {
         const foundEvent = await eventList.findById(req.params.id)
-        if (!foundEvent) {
+        if (foundEvent.length === 0) {
             return res.status(404).json({error:"an error is occuring while finding event by title"})
         } else {
             return res.status(200).json({message:"event found successfully",foundEventDetails:foundEvent})
@@ -120,7 +120,7 @@ app.get("/events/:id",async(req,res)=>{
 app.get("/events/title/:title",async(req,res)=>{
     try {
         const foundTitle = await eventList.findOne({eventTitle:req.params.title})
-        if (!foundTitle) {
+        if (foundTitle.length === 0) {
             return res.status(404).json({error:"title not found"})
         } else {
             return res.status(200).json({message:"title found successfully",FoundEvent:foundTitle})
@@ -135,10 +135,10 @@ app.get("/events/title/:title",async(req,res)=>{
 app.get("/events/eventType/:eventType",async (req,res)=>{
     try {
         const foundevent = await eventList.find({typeOfEvent:req.params.eventType})
-        if (!foundevent) {
-            return res.status(404).json({error:"event not found"})
+        if (foundevent.length === 0) {
+            return res.status(404).json({error:"events not found"})
         } else {
-            return res.status(200).json({message:"event found successfully",foundevent:foundevent})
+            return res.status(200).json({message:"events found successfully",foundevent:foundevent})
         }
     } catch(err) {
         return res.status(500).json({error:"an error occured while geting ",eventType})
