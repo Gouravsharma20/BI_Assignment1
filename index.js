@@ -106,7 +106,8 @@ const findEvents = async(findEventBy) => {
 
 app.get("/events/title/:title",async(req,res)=>{
     try {
-        const foundTitle = await eventList.find({eventTitle:{$regex: new RegExp(req.params.title,"i")}})
+        const escapedTitle = req.params.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        const foundTitle = await eventList.find({eventTitle:{$regex: new RegExp(escapedTitle,"i")}})
         if (foundTitle.length === 0) {
             return res.status(404).json({error:"title not found"})
         } else {
