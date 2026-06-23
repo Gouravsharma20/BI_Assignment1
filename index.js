@@ -100,20 +100,7 @@ const findEvents = async(findEventBy) => {
     }
 }
 
-// get event by id
 
-app.get("/events/:id",async(req,res)=>{
-    try {
-        const foundEvent = await eventList.findById(req.params.id)
-        if (foundEvent.length === 0) {
-            return res.status(404).json({error:"an error is occuring while finding event by title"})
-        } else {
-            return res.status(200).json({message:"event found successfully",foundEventDetails:foundEvent})
-        }
-    } catch(err) {
-        return res.status(500).json({error:"an error occured while dinding movie by",findEventBy})
-    }
-})
 
 // get event by title
 
@@ -145,16 +132,21 @@ app.get("/events/eventType/:eventType",async (req,res)=>{
     }
 })
 
-// delete
+// get event by tags
 
-// async function deleteEvent(eventToDelete) {
-//     try {
-//         const deleteEvent = await eventList.deleteOne(eventToDelete)
-//         return deleteEvent
-//     } catch(err) {
-//         console.log("an error occured while deleting event")
-//     }
-// }
+app.get("/events/eventTag/:eventTag",async(req,res)=>{
+    try {
+        const foundTag = await eventList.find({eventTags:req.params.eventTag})
+        console.log(foundTag)
+        if (foundTag.length > 0) {
+            return res.status(200).json({message:"events found successfully",foundTag})
+        } else {
+            return res.status(404).json({error:"tag not found"})
+        }
+    } catch(err) {
+        return res.status(500).json({error:"an error occured while getting"})
+    }
+})
 
 app.delete("/events/deleteEvent/:eventId",async(req,res)=>{
     try {
@@ -168,8 +160,23 @@ app.delete("/events/deleteEvent/:eventId",async(req,res)=>{
     }
 })
 
+// get event by id
 
-const PORT = 2219
+app.get("/events/:id",async(req,res)=>{
+    try {
+        const foundEvent = await eventList.findById(req.params.id)
+        if (foundEvent.length === 0) {
+            return res.status(404).json({error:"an error is occuring while finding event by title"})
+        } else {
+            return res.status(200).json({message:"event found successfully",foundEventDetails:foundEvent})
+        }
+    } catch(err) {
+        return res.status(500).json({error:"an error occured while dinding movie by",findEventBy})
+    }
+})
+
+
+const PORT = 2218
 
 app.listen(PORT,()=>{
     console.log(`App is running on port ${PORT}`)
