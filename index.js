@@ -106,7 +106,7 @@ const findEvents = async(findEventBy) => {
 
 app.get("/events/title/:title",async(req,res)=>{
     try {
-        const foundTitle = await eventList.findOne({eventTitle:req.params.title})
+        const foundTitle = await eventList.find({eventTitle:{$regex: new RegExp(req.params.title,"i")}})
         if (foundTitle.length === 0) {
             return res.status(404).json({error:"title not found"})
         } else {
@@ -136,7 +136,7 @@ app.get("/events/eventType/:eventType",async (req,res)=>{
 
 app.get("/events/eventTag/:eventTag",async(req,res)=>{
     try {
-        const foundTag = await eventList.find({eventTags:req.params.eventTag})
+        const foundTag = await eventList.find({eventTags:req.params.eventTag.toLocaleLowerCase()})
         console.log(foundTag)
         if (foundTag.length > 0) {
             return res.status(200).json({message:"events found successfully",foundTag})
